@@ -16,12 +16,18 @@ class Spider(scrapy.Spider):
         "https://www.houzz.com/products/sofas-and-sectionals",
     ]
 
+    def __init__(self, **kwarges):
+        super().__init__(**kwarges)
+        self.page_limit = int(self.page_limit)
+        self.pagr_counter = 0
+
     def parse(self, response):
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse_product)
 
         next_page = response.css(".hz-pagination-link--next::attr(href)").get()
-        if next_page is not None:
+        if next_page is not None and self.pagr_counter < self.page_limit:
+            self.pagr_counter += 1
             next_page = response.urljoin(next_page)
             yield scrapy.Request(next_page, callback=self.parse)
 
