@@ -3,7 +3,7 @@ from web_scraper.items import WebScraperItem
 
 
 class Spider(scrapy.Spider):
-    name = "houzz.co.uk"
+    name = "houzz.com"
 
     start_urls = [
         "https://www.houzz.com/products/beds",
